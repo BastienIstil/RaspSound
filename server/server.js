@@ -1,27 +1,27 @@
-var youtubeKeyApi;
+// parse Args
+{
+  var youtubeKeyApi;
+  var nextIsYoutubeKeyApi =  false;
 
-var nextIsYoutubeKeyApi =  false;
-process.argv.forEach(function(val, index, array){
-  console.log(index + ':' + val);
+  process.argv.forEach(function(val, index, array){
+    if(val == '--YoutubeKeyApi'){
+      nextIsYoutubeKeyApi = true;
+    }
+    else if(nextIsYoutubeKeyApi){
+      youtubeKeyApi = val;
+      nextIsYoutubeKeyApi = false;
+    }
+  });
 
-  if(val == '--YoutubeKeyApi'){
-    nextIsYoutubeKeyApi = true;
+  if(youtubeKeyApi === undefined){
+    return;
   }
-  else if(nextIsYoutubeKeyApi){
-    youtubeKeyApi = val;
-    nextIsYoutubeKeyApi = false;
-  }
-});
-
-if(youtubeKeyApi === undefined){
-  return;
 }
 
+// init server
 var serverRasp = require('./serverRasp');
 var serverClient = require('./serverClient');
-var youtube = require('./youtube');
+var youtube = require('./youtube')(youtubeKeyApi);
 
 serverRasp.initServer();
 serverClient.initServer();
-
-//youtube.searchVideo(youtubeKeyApi);
