@@ -10,7 +10,7 @@ function ServerRasp() {
 ServerRasp.prototype.initServer = function() {
 
     ServerRasp.app.get('/rasp',function(req,res){
-      res.sendFile(__dirname + '/indexRasp.html');
+      res.sendFile(__dirname + '/html/indexRasp.html');
     });
 
     ServerRasp.io.on('connection', function(socket){

@@ -19,9 +19,14 @@
 }
 
 // init server
+var interServerEvent = require('./interServerEvent');
 var serverRasp = require('./serverRasp');
-var serverClient = require('./serverClient');
+var serverClient = require('./serverClient')(interServerEvent);
 var youtube = require('./youtube')(youtubeKeyApi);
 
 serverRasp.initServer();
 serverClient.initServer();
+
+interServerEvent.on('search', function() {
+  console.log('search from client');
+});
