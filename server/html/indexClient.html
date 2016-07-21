@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-    <style>
+<!--    <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
       form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
@@ -11,16 +11,25 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
       #messages li:nth-child(odd) { background: #eee; }
-    </style>
+    </style> -->
   </head>
   <body>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
+
+    <div id="search_result_list"></div>
+
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+      // utils
+      function arrayBuff2String(buffer){
+        return String.fromCharCode.apply(null, new Uint8Array(buffer));
+      }
+
+
       var socket = io();
       $('form').submit(function(){
         socket.emit('search', $('#m').val());
@@ -30,6 +39,29 @@
 
       socket.on('update list', function(msg){
         $('#messages').append($('<li>').text(msg));
+      });
+
+      function selectVideo(videoId){
+          socket.emit('select video', videoId);
+      }
+
+      socket.on('update list real', function(result){
+        var json = JSON.parse(arrayBuff2String(result));
+
+        if(json.error !== 'undefined'){
+          //    $('#search_result_list').append($('<p>').text(JSON.stringify(stringifiedJSON)));
+
+              for(var i = 0 ; i < json.items.length; i ++){
+                $('#search_result_list').append($(
+                  '<button class="testVideo" onclick="selectVideo(\''+ json.items[i].id.videoId +'\')">' +
+                  '<img class="testVideoImage" src="' +
+                  json.items[i].snippet.thumbnails.default.url +
+                 '">'+
+                 '</button>'
+               ));
+
+              }
+        }
       });
     </script>
   </body>

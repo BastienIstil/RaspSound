@@ -27,6 +27,10 @@ ServerRasp.prototype.initServer = function() {
     });
 };
 
+ServerRasp.prototype.changeVideo = function(videoId){
+  ServerRasp.io.emit('change video', videoId);
+}
+
 
 // export the class
 module.exports = new ServerRasp();

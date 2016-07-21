@@ -1,16 +1,13 @@
-const util = require('util');
-var EventEmitter = require('events').EventEmitter;
-
 // Constructor
-function Youtube(keyApi) {
+function Youtube(keyApi,interServerEvent) {
   Youtube.https = require('https');
   Youtube.keyApi = keyApi;
+  Youtube.interServerEvent = interServerEvent;
 }
-util.inherits(Youtube, EventEmitter);
 
 
 // class methods
-Youtube.prototype.searchVideo = function() {
+Youtube.prototype.searchVideo = function(searchArgs) {
   var options = {
     host: 'www.googleapis.com',
     path: '/youtube/v3/search?part=id&key='+Youtube.keyApi,
@@ -25,7 +22,7 @@ Youtube.prototype.searchVideo = function() {
 
     response.on('end', function(chunk){
       var result = JSON.parse(str);
-      console.log(str);
+      Youtube.interServerEvent.emit('search result', result, searchArgs.socketID);
     });
   }
 
@@ -34,6 +31,6 @@ Youtube.prototype.searchVideo = function() {
 };
 
 // export the class
-module.exports = function(keyApi){
-  return new Youtube(keyApi);
+module.exports = function(keyApi,interServerEvent){
+  return new Youtube(keyApi,interServerEvent);
 };
