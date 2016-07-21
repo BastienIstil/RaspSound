@@ -28,14 +28,14 @@ serverRasp.initServer();
 serverClient.initServer();
 
 interServerEvent.on('search', function(searchArgs) {
-  var fs = require('fs');
-  fs.readFile(__dirname + '/resultSearchYoutube.txt', function(err, data){
-    if(err) throw err;
-      interServerEvent.emit('search result',
-       data,
-       searchArgs.socketID);
-  });
-//  youtube.searchVideo(searchArgs);
+//  var fs = require('fs');
+//  fs.readFile(__dirname + '/resultSearchYoutube.txt', function(err, data){
+//    if(err) throw err;
+//      interServerEvent.emit('search result',
+//       data,
+//       searchArgs.socketID);
+//  });
+  youtube.searchVideo(searchArgs);
 });
 
 interServerEvent.on('search result', function(result,socketID){

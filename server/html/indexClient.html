@@ -37,19 +37,19 @@
         return false;
       });
 
-      socket.on('update list', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
-
       function selectVideo(videoId){
           socket.emit('select video', videoId);
       }
 
-      socket.on('update list real', function(result){
-        var json = JSON.parse(arrayBuff2String(result));
+      socket.on('update list', function(result){
+              console.log(result);
+        var json = JSON.parse(result);
+
 
         if(json.error !== 'undefined'){
           //    $('#search_result_list').append($('<p>').text(JSON.stringify(stringifiedJSON)));
+
+              $('.testVideo').remove();
 
               for(var i = 0 ; i < json.items.length; i ++){
                 $('#search_result_list').append($(

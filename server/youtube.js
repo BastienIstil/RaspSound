@@ -8,9 +8,11 @@ function Youtube(keyApi,interServerEvent) {
 
 // class methods
 Youtube.prototype.searchVideo = function(searchArgs) {
+  console.log('search video with : ' + searchArgs.name);
+
   var options = {
     host: 'www.googleapis.com',
-    path: '/youtube/v3/search?part=id&key='+Youtube.keyApi,
+    path: '/youtube/v3/search?part=id,snippet&maxResults=50&q='+ searchArgs.name +'&key='+Youtube.keyApi,
     method: 'GET',
   };
 
@@ -21,8 +23,7 @@ Youtube.prototype.searchVideo = function(searchArgs) {
     });
 
     response.on('end', function(chunk){
-      var result = JSON.parse(str);
-      Youtube.interServerEvent.emit('search result', result, searchArgs.socketID);
+      Youtube.interServerEvent.emit('search result', str, searchArgs.socketID);
     });
   }
 

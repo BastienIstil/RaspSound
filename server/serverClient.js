@@ -20,14 +20,9 @@ ServerClient.prototype.initServer = function() {
   ServerClient.io.on('connection', function(socket){
     console.log('connection from client' + socket.id);
 
-    ServerClient.io.to(socket.id).emit('update list', socket.id);
-
     ServerClient.activeSocket.push(socket.id);
 
     socket.on('search', function(msg){
-      console.log('message  from ' + socket.id + ' ' + msg);
-      ServerClient.io.emit('update list', msg);
-
       var searchArgs = {
         name : msg,
         socketID : socket.id
@@ -53,7 +48,8 @@ ServerClient.prototype.initServer = function() {
 };
 
 ServerClient.prototype.updateList = function(list, socketID){
-    ServerClient.io.to(socketID).emit('update list real', list);
+   console.log('send new list : ' + list);
+    ServerClient.io.to(socketID).emit('update list', list);
 };
 // export the class
 module.exports = function(interServerEvent) {
