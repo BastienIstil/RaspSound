@@ -2,7 +2,7 @@
 {
   var youtubeKeyApi;
   var nextIsYoutubeKeyApi =  false;
-  
+
   process.argv.forEach(function(val, index, array){
     if(val == '--YoutubeKeyApi'){
       nextIsYoutubeKeyApi = true;
@@ -18,7 +18,7 @@
   }
 }
 
-// init server
+// init servers
 var interServerEvent = require('./interServerEvent');
 var serverRasp = require('./serverRasp');
 var serverClient = require('./serverClient')(interServerEvent);
