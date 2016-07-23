@@ -10,9 +10,10 @@ function Youtube(keyApi,interServerEvent) {
 Youtube.prototype.searchVideo = function(searchArgs) {
   console.log('search video with : ' + searchArgs.name);
 
+  var searchName = searchArgs.name.split(' ').join('&nbsp;');
   var options = {
     host: 'www.googleapis.com',
-    path: '/youtube/v3/search?part=id,snippet&maxResults=50&q='+ searchArgs.name +'&key='+Youtube.keyApi,
+    path: '/youtube/v3/search?part=id,snippet&maxResults=50&q='+ searchName +'&key='+Youtube.keyApi,
     method: 'GET',
   };
 
