@@ -2,6 +2,7 @@
 {
   var youtubeKeyApi;
   var nextIsYoutubeKeyApi =  false;
+  var useCVLC = false;
 
   process.argv.forEach(function(val, index, array){
     if(val == '--YoutubeKeyApi'){
@@ -11,6 +12,10 @@
       youtubeKeyApi = val;
       nextIsYoutubeKeyApi = false;
     }
+    else if(val == '--CVLC'){
+      useCVLC = true;
+    }
+    console.log('Arg : ' + val);
   });
 
   if(youtubeKeyApi === undefined){
@@ -20,7 +25,13 @@
 
 // init server
 var interServerEvent = require('./interServerEvent');
-var serverRasp = require('./serverRasp');
+var serverRasp;
+
+if(useCVLC)
+   serverRasp = require('./serverRaspCVLC');
+else
+   serverRasp = require('./serverRasp');
+
 var serverClient = require('./serverClient')(interServerEvent);
 var youtube = require('./youtube')(youtubeKeyApi,interServerEvent);
 
